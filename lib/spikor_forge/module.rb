@@ -13,7 +13,9 @@ class SpikorForge::Module
 
   def dependencies
     @metadata['dependencies'].collect do |dep|
-      [dep['name'], dep['version_requirement'] || '' ]
+      ret = [dep['name']]
+      ret << dep['version_requirement'] if dep['version_requirement']
+      ret
     end
   end
 
