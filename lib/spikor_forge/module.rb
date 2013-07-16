@@ -15,7 +15,7 @@ class SpikorForge::Module
     # Modulefiles are actually ruby code that should be evaluated.
     # So exctract it to a temporary file and evaluate.
     modulefile = Tempfile.new('foo')
-    `tar -z -x -O --include '*/Modulefile' -f #{path} > #{modulefile.path}`
+    `tar -z -x -O --wildcards -f #{path} '*/Modulefile' > #{modulefile.path}`
     @metadata = Puppet::ModuleTool::Metadata.new()
     Puppet::ModuleTool::ModulefileReader.evaluate(@metadata, modulefile.path)
     modulefile.close
