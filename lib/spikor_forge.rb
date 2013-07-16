@@ -12,26 +12,53 @@ class SpikorForge < Sinatra::Base
 
   # API request for a module
   get '/:environment/api/v1/releases.json' do
-    user, modname = params[:module].split '/'
-    if params[:environment] == settings.fallback_environment
-      modules = list_modules params[:environment], user, modname
-    else
-      modules = merge_module_lists(
-        list_modules(params[:environment], user, modname),
-        list_modules(settings.fallback_environment, user, modname))
+    modules = {}
+    unprocessed = [params[:module]]
+    while mod = unprocessed.shift
+      next if modules[mod] # This module has already been added
+
+      user, modname = mod.split '/'
+      release_list = environment_modules(params[:environment], user, modname)
+      if !release_list.empty?
+        modules[mod] = release_list
+        unprocessed += modules_dependencies(release_list)
+      end
     end
+
     if modules.empty?
       status 410
       return { 'error' => "Module #{user}/#{modname} not found"}.to_json
     else
-      releases = modules.collect { |m| m.to_hash }
-      return { params[:module] => releases }.to_json
+      modules.each_key do |mod|
+        modules[mod] = modules[mod].collect { |m| m.to_hash }
+      end
+      return modules.to_json
     end
   end
 
   # Serve the module itself
   get '*/modules/:environment/:user/:module/:file' do
     send_file File.join(settings.module_dir, 'modules', params[:environment], params[:user], params[:module], params[:file])
+  end
+
+  # Returns a merged list of module releases for a module and environment
+  def environment_modules(environment, user, modname)
+    if params[:environment] == settings.fallback_environment
+      list_modules params[:environment], user, modname
+    else
+      merge_module_lists(
+        list_modules(params[:environment], user, modname),
+        list_modules(settings.fallback_environment, user, modname))
+    end
+  end
+
+  # From a list of modules get a list of modules (names) they depend on
+  def modules_dependencies(modules)
+    modules.collect { |m| m.dependencies.collect { |d| d.first } }.flatten.uniq
+  end
+
+  # Given a module hash add the dependencies of all modules if needed
+  def add_dependencies(modules)
   end
 
   # List modules in a environment directory matching user and module
