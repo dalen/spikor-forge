@@ -29,8 +29,8 @@ class SpikorForge < Sinatra::Base
       status 410
       return { 'error' => "Module #{user}/#{modname} not found"}.to_json
     else
-      modules.each_key do |mod|
-        modules[mod] = modules[mod].collect { |m| m.to_hash }
+      modules.each_key do |m|
+        modules[m] = modules[m].collect { |release| release.to_hash }
       end
       return modules.to_json
     end
