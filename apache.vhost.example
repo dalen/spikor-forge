@@ -1,0 +1,4 @@
+<VirtualHost *:80>
+  PassengerAppRoot /usr/share/spikor-forge
+  DocumentRoot /usr/share/spikor-forge
+</VirtualHost>
