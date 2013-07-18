@@ -6,7 +6,7 @@ require 'json'
 class SpikorForge < Sinatra::Base
 
   configure do
-    set :module_dir, File.join(settings.root, '..' , 'public')
+    set :module_dir, '/var/lib/spikor-forge/modules'
     set :fallback_environment, 'production'
   end
 
@@ -38,7 +38,7 @@ class SpikorForge < Sinatra::Base
 
   # Serve the module itself
   get '*/modules/:environment/:user/:module/:file' do
-    send_file File.join(settings.module_dir, 'modules', params[:environment], params[:user], params[:module], params[:file])
+    send_file File.join(settings.module_dir, params[:environment], params[:user], params[:module], params[:file])
   end
 
   # Returns a merged list of module releases for a module and environment
