@@ -16,6 +16,15 @@ if [ "$1" = "configure" ]; then
         if ! dpkg-statoverride --list /usr/share/spikor-forge/config.ru >/dev/null 2>&1; then
                 dpkg-statoverride --update --add spikor-forge spikor-forge 0644 /usr/share/spikor-forge/config.ru
         fi
+
+        if ! dpkg-statoverride --list /var/lib/spikor-forge >/dev/null 2>&1; then
+                dpkg-statoverride --update --add spikor-forge spikor-forge 0750 /var/lib/spikor-forge
+        fi
+
+        if ! dpkg-statoverride --list /var/lib/spikor-forge/modules >/dev/null 2>&1; then
+                dpkg-statoverride --update --add spikor-forge spikor-forge 0750 /var/lib/spikor-forge/modules
+        fi
+
 fi
 
 #DEBHELPER#
