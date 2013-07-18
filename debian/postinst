@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "configure" ]; then
+
+        # Create the "spikor-forge" user
+        if ! getent passwd spikor-forge > /dev/null; then
+                adduser --quiet --system --group --home /usr/share/spikor-forge  \
+                        --no-create-home                                 \
+                        --gecos "Spikor Forge daemon" \
+                        spikor-forge
+        fi
+
+        # Set correct permissions and ownership for the application
+        if ! dpkg-statoverride --list /usr/share/spikor-forge/config.ru >/dev/null 2>&1; then
+                dpkg-statoverride --update --add spikor-forge spikor-forge 0644 /usr/share/spikor-forge/config.ru
+        fi
+fi
+
+#DEBHELPER#

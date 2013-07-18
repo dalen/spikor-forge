@@ -1,0 +1,15 @@
+Source: spikor-forge
+Section: ruby
+Priority: optional
+Maintainer: Erik Dalen <dalen@spotify.com>
+DM-Upload-Allowed: yes
+Build-Depends: debhelper (>= 7.0.50~), gem2deb (>= 0.2.7~)
+Standards-Version: 3.9.2
+XS-Ruby-Versions: all
+
+Package: spikor-forge
+Architecture: all
+XB-Ruby-Versions: ${ruby:Versions}
+Depends: ruby | ruby-interpreter, ruby-json, ruby-sinatra
+Description: Multi environment Puppet Forge
+ A implementation of the Puppet forge supporting multiple environments will fallback.
