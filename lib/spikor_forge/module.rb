@@ -7,19 +7,27 @@ class SpikorForge::Module
   def initialize(path, uri_root_path)
     @path = path
     @uripath = path[uri_root_path.chomp('/').length..-1].chomp('/')
+    @metadata_path = path + '.metadata'
 
-    metadata_path = path + '.metadata'
+    extract_metadata
+    read_metadata
+  end
 
-    # Extract the metdata if it doesn't exist or if the module has been updated
-    if not File.exist?(metadata_path) \
-      or (File.exist?(metadata_path) and File.stat(metadata_path).mtime < File.stat(path).mtime)
+  # Extract the metdata if it doesn't exist or if the module has been updated
+  def extract_metadata
+    if not File.exist?(@metadata_path) \
+      or (File.exist?(@metadata_path) and File.stat(@metadata_path).mtime < File.stat(@path).mtime)
 
-      `tar -z -x -O --wildcards -f #{@path} '*/metadata.json' > #{metadata_path}`
+      `tar -z -x -O --wildcards -f #{@path} '*/metadata.json' > #{@metadata_path}`
     end
+  end
 
-    metadata_file = File.open(metadata_path, 'r')
+  # Read the metadata file
+  def read_metadata
+    metadata_file = File.open(@metadata_path, 'r')
     @metadata = JSON.parse metadata_file.read
     metadata_file.close
+    @metadata
   end
 
   def dependencies
