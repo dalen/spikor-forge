@@ -15,11 +15,12 @@ class SpikorForge::Module
 
   # Extract the metdata if it doesn't exist or if the module has been updated
   def extract_metadata
-    if not File.exist?(@metadata_path) \
-      or (File.exist?(@metadata_path) and File.stat(@metadata_path).mtime < File.stat(@path).mtime)
-
-      `tar -z -x -O --wildcards -f #{@path} '*/metadata.json' > #{@metadata_path}`
+    if File.exist?(@metadata_path)
+      if File.stat(@metadata_path).mtime > File.stat(@path).mtime
+        return
+      end
     end
+    `tar -z -x -O --wildcards -f #{@path} '*/metadata.json' > #{@metadata_path}`
   end
 
   # Read the metadata file
