@@ -6,7 +6,7 @@ if [ "$1" = "configure" ]; then
 
         # Create the "spikor-forge" user
         if ! getent passwd spikor-forge > /dev/null; then
-                adduser --quiet --system --group --home /usr/share/spikor-forge  \
+                adduser --quiet --system --group --home /var/lib/spikor-forge  \
                         --no-create-home                                 \
                         --gecos "Spikor Forge daemon" \
                         spikor-forge
