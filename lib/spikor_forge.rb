@@ -65,7 +65,7 @@ class SpikorForge < Sinatra::Base
   def list_modules(environment, user, mod)
     require 'spikor_forge/module'
 
-    dir = File.join(settings.module_dir, 'modules', environment, user, mod)
+    dir = File.join(settings.module_dir, environment, user, mod)
 
     begin
       Dir.entries(dir).select do |e|

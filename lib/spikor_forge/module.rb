@@ -6,7 +6,7 @@ class SpikorForge::Module
 
   def initialize(path, uri_root_path)
     @path = path
-    @uripath = path[uri_root_path.chomp('/').length..-1].chomp('/')
+    @uripath = '/modules' + path[uri_root_path.chomp('/').length..-1].chomp('/')
     @metadata_path = path + '.metadata'
 
     extract_metadata
