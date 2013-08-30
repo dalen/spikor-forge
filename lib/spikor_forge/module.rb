@@ -22,14 +22,19 @@ class SpikorForge::Module
     end
     # TODO: support others than GNU tar
     `tar -z -x -O --wildcards -f #{@path} '*/metadata.json' > #{@metadata_path}`
+    raise "Failed to extract metadata for #{@path}" unless $?.success?
   end
 
   # Read the metadata file
   def read_metadata
-    metadata_file = File.open(@metadata_path, 'r')
-    @metadata = JSON.parse metadata_file.read
-    metadata_file.close
-    @metadata
+    begin
+      metadata_file = File.open(@metadata_path, 'r')
+      @metadata = JSON.parse metadata_file.read
+      metadata_file.close
+      @metadata
+    rescue
+      raise "Failed to read metadata file #{@metadata_path}"
+    end
   end
 
   def dependencies
