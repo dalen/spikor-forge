@@ -58,10 +58,6 @@ class SpikorForge < Sinatra::Base
     modules.collect { |m| m.dependencies.collect { |d| d.first } }.flatten.uniq
   end
 
-  # Given a module hash add the dependencies of all modules if needed
-  def add_dependencies(modules)
-  end
-
   # List modules in a environment directory matching user and module
   def list_modules(environment, user, mod)
     require 'spikor_forge/module'
