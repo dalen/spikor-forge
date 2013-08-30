@@ -8,6 +8,7 @@ class SpikorForge < Sinatra::Base
   configure do
     set :module_dir, '/var/lib/spikor-forge/modules'
     set :fallback_environment, 'production'
+    enable :logging
   end
 
   # API request for a module
@@ -72,8 +73,13 @@ class SpikorForge < Sinatra::Base
         e.match(/^#{Regexp.escape user}-#{Regexp.escape mod}-.*.tar\.gz$/)
       end.sort.reverse.collect do |f|
         path = File.join(dir, f)
-        Module.new(path, settings.module_dir)
-      end
+        begin
+          Module.new(path, settings.module_dir)
+        rescue RuntimeError => e
+          logger.error e.message
+          nil
+        end
+      end.compact
     rescue Errno::ENOENT
       return []
     end
