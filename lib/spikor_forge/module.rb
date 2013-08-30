@@ -20,6 +20,7 @@ class SpikorForge::Module
         return
       end
     end
+    # TODO: support others than GNU tar
     `tar -z -x -O --wildcards -f #{@path} '*/metadata.json' > #{@metadata_path}`
   end
 
