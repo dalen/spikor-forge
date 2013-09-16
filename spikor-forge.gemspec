@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Erik Dalén"]
   s.email       = ["dalen@spotify.com"]
   s.summary     = %q{Multi environment Puppet Forge}
-  s.description = %q{A implementation of the Puppet forge supporting multiple environments will fallback.}
+  s.description = %q{A implementation of the Puppet forge supporting multiple environments with fallback.}
   s.license     = 'Apache v2'
 
   s.files         = `git ls-files`.split("\n")
