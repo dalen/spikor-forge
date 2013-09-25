@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "spikor-forge"
-  s.version     = %x{git describe --tags}.split('-')[0..1].join('.')
+  s.version     = '0.1.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Erik Dalén"]
   s.email       = ["dalen@spotify.com"]
