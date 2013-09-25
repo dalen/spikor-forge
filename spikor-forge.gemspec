@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.name        = "spikor-forge"
   s.version     = '0.1.0'
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Erik Dalén"]
+  s.authors     = ["Erik Dalen"]
   s.email       = ["dalen@spotify.com"]
   s.summary     = %q{Multi environment Puppet Forge}
   s.description = %q{A implementation of the Puppet forge supporting multiple environments with fallback.}
